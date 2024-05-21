@@ -40,30 +40,36 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         db = SQLDatabase(engine=engine)
         return db
     
-    prompt = ChatPromptTemplate.from_messages(
-      [
-        (
-          "system",
-          "You are an expert data analysis with a PhD in data science. Answer all questions with detail and explain your reasoning.",
-        ),
-        ('human', '{input}'),
-        MessagesPlaceholder("agent_scratchpad"),
-      ]
-    )
+    @st.cache_resource
+    def create_chat_agent(db):
+        prompt = ChatPromptTemplate.from_messages(
+          [
+            (
+              "system",
+              "You are an expert data analysis with a PhD in data science. Answer all questions with detail and explain your reasoning.",
+            ),
+            ('human', '{input}'),
+            MessagesPlaceholder("agent_scratchpad"),
+          ]
+        )
+        
+        memory = ChatMessageHistory(session_id='test-session')
     
-    memory = ChatMessageHistory(session_id='test-session')
-
+        
+        
+        agent_executor = create_sql_agent(chat, db=db, prompt=prompt, agent_type="openai-tools", verbose=True)
+        agent_with_chat_history = RunnableWithMessageHistory(
+            agent_executor,
+            # This is needed because in most real world scenarios, a session id is needed
+            # It isn't really used here because we are using a simple in memory ChatMessageHistory
+            lambda session_id: memory,
+            input_messages_key="input",
+            history_messages_key="chat_history",
+        )
+        return agent_with_chat_history
+        
     db = create_sql_database(uploaded_file)
-    
-    agent_executor = create_sql_agent(chat, db=db, prompt=prompt, agent_type="openai-tools", verbose=True)
-    agent_with_chat_history = RunnableWithMessageHistory(
-        agent_executor,
-        # This is needed because in most real world scenarios, a session id is needed
-        # It isn't really used here because we are using a simple in memory ChatMessageHistory
-        lambda session_id: memory,
-        input_messages_key="input",
-        history_messages_key="chat_history",
-    )
+    agent_with_chat_history = create_chat_agent(db)
     
     # Initialize chat history
     if "messages" not in st.session_state:
