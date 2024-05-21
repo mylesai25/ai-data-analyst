@@ -85,6 +85,6 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         with st.chat_message("assistant"):
             with st.spinner(text='Thinking'):
                 stream = agent_with_chat_history.invoke({'input':prompt}, config={'configurable': {'session_id': 'test-session'}})
-                response = st.write(stream['output'])
+                response = stream['output']
+                st.write(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
-    st.write(st.session_state.messages)
