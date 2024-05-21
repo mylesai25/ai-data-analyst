@@ -35,8 +35,8 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     @st.cache_resource
     def create_sql_database(uploaded_file):
         df = pd.read_csv(uploaded_file)
-        engine = create_engine("sqlite:///flight.db")
-        df.to_sql('airline-5',engine,index=False)
+        engine = create_engine("sqlite:///takeoff.db")
+        df.to_sql('airline',engine,index=False)
         db = SQLDatabase(engine=engine)
         return db
     
