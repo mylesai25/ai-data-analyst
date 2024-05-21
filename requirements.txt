@@ -3,5 +3,4 @@ pandas
 numpy
 openai
 langchain-core
-langchain-core-prompts
 langchain-openai
