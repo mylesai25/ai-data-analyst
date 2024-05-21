@@ -9,6 +9,7 @@ from langchain_community.utilities import SQLDatabase
 from langchain.agents import AgentExecutor
 from langchain_openai import ChatOpenAI
 from sqlalchemy import create_engine
+import pandas as pd
 
 
 # Title of app
