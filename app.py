@@ -83,6 +83,6 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             st.markdown(prompt)
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
-            stream = agent_with_chat_history.stream({'input':prompt}, config={'configurable': {'session_id': 'test-session'}})
-            response = st.write_stream(stream['messages'].content)
+            stream = agent_with_chat_history.invoke({'input':prompt}, config={'configurable': {'session_id': 'test-session'}})
+            response = st.write(stream['messages'].content)
         st.session_state.messages.append({"role": "assistant", "content": response})
