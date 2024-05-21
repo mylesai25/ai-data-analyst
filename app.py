@@ -21,7 +21,7 @@ uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 
 # dataset to use
 df = pd.read_csv(uploaded_file)
-engine = create_engine('sqlite:///airline.db")
+engine = create_engine("sqlite:///airline.db")
 df.to_sql('airline',engine,index=False)
 
 # area to input your API Key
