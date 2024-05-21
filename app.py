@@ -10,6 +10,7 @@ from langchain.agents import AgentExecutor
 from langchain_openai import ChatOpenAI
 from sqlalchemy import create_engine
 import pandas as pd
+import os
 
 
 # Title of app
@@ -22,7 +23,7 @@ uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 
 
 # area to input your API Key
-openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
+os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='password')
 
 if openai_api_key and uploaded_file:
     # model used
