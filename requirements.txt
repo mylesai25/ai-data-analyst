@@ -2,5 +2,6 @@ streamlit
 pandas
 numpy
 openai
+langchain
 langchain-core
 langchain-openai
