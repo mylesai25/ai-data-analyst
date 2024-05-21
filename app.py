@@ -42,7 +42,8 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
           "system",
           "You are an expert data analysis with a PhD in data science. Answer all questions with detail and explain your reasoning.",
         ),
-        MessagesPlaceholder(variable_name='messages'),
+        ('human', '{input}'),
+        MessagesPlaceholder("agent_scratchpad"),
       ]
     )
     
