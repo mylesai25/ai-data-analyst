@@ -23,7 +23,7 @@ uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 # dataset to use
 df = pd.read_csv(uploaded_file)
 engine = create_engine("sqlite:///airline.db")
-df.to_sql('airline',engine,index=False)
+df.to_sql('airline-12345',engine,index=False)
 
 # area to input your API Key
 openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
