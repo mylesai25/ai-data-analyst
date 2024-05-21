@@ -32,9 +32,12 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     chat = ChatOpenAI(model=llm)
     
     # dataset to use
-    df = pd.read_csv(uploaded_file)
-    engine = create_engine("sqlite:///airline.db")
-    df.to_sql('airline-3',engine,index=False)
+    @st.cache_resource
+    def create_sql_database(uploaded_file):
+        df = pd.read_csv(uploaded_file)
+        engine = create_engine("sqlite:///airline.db")
+        df.to_sql('airline-4',engine,index=False)
+        db = SQLDatabase(engine=engine)
     
     prompt = ChatPromptTemplate.from_messages(
       [
@@ -48,7 +51,8 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     )
     
     memory = ChatMessageHistory(session_id='test-session')
-    db = SQLDatabase(engine=engine)
+
+    db = create_sql_database(uploaded_file)
     
     agent_executor = create_sql_agent(chat, db=db, prompt=prompt, agent_type="openai-tools", verbose=True)
     agent_with_chat_history = RunnableWithMessageHistory(
