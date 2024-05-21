@@ -41,7 +41,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         return db
     
     @st.cache_resource
-    def create_chat_agent(db):
+    def create_chat_agent(database):
         prompt = ChatPromptTemplate.from_messages(
           [
             (
@@ -57,7 +57,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     
         
         
-        agent_executor = create_sql_agent(chat, db=db, prompt=prompt, agent_type="openai-tools", verbose=True)
+        agent_executor = create_sql_agent(chat, db=database, prompt=prompt, agent_type="openai-tools", verbose=True)
         agent_with_chat_history = RunnableWithMessageHistory(
             agent_executor,
             # This is needed because in most real world scenarios, a session id is needed
