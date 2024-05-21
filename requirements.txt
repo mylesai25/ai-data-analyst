@@ -1,4 +1,6 @@
 streamlit
 openai
 pandas
-langchain
+langchain-core
+langchain-community
+langchain-openai
