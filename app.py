@@ -7,7 +7,7 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.agent_toolkits import create_sql_agent
 from langchain_community.utilities import SQLDatabase
 from langchain.agents import AgentExecutor
-from langchain_openai import OpenAI
+from langchain_openai import ChatOpenAI
 from sqlalchemy import create_engine
 import pandas as pd
 import os
@@ -29,7 +29,7 @@ os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='pas
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
     llm = 'gpt-4o'
-    chat = OpenAI(model=llm, temperature=0)
+    chat = ChatOpenAI(model=llm, temperature=0)
     
     # dataset to use
     @st.cache_resource
