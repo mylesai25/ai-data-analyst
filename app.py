@@ -41,7 +41,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         return db
     
     @st.cache_resource
-    def create_chat_agent(database):
+    def create_chat_agent(_database):
         prompt = ChatPromptTemplate.from_messages(
           [
             (
