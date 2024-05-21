@@ -50,6 +50,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             ),
             ('human', '{input}'),
             MessagesPlaceholder("agent_scratchpad"),
+            MessagesPlaceholder("chat_history"),
           ]
         )
         
