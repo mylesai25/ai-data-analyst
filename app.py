@@ -36,8 +36,9 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     def create_sql_database(uploaded_file):
         df = pd.read_csv(uploaded_file)
         engine = create_engine("sqlite:///airline.db")
-        df.to_sql('airline-4',engine,index=False)
+        df.to_sql('airline-5',engine,index=False)
         db = SQLDatabase(engine=engine)
+        return db
     
     prompt = ChatPromptTemplate.from_messages(
       [
