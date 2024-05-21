@@ -1,6 +1,11 @@
 streamlit
-openai
 pandas
-langchain-core
-langchain-community
-langchain-openai
+numpy
+openai
+llama-index-postprocessor-rankgpt-rerank
+llama-index-llms-anyscale
+llama-index==0.10.6
+llama-index-llms-openai
+llama-index-llms-anthropic
+llama-index-embeddings-anyscale
+llama-index-embeddings-openai
