@@ -47,6 +47,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     )
     
     memory = ChatMessageHistory(session_id='test-session')
+    db = SQLDatabase(engine=engine)
     
     agent_executor = create_sql_agent(chat, db=db, prompt=prompt, agent_type="openai-tools", verbose=True)
     agent_with_chat_history = RunnableWithMessageHistory(
