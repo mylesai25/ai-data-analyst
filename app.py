@@ -25,7 +25,8 @@ uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 # area to input your API Key
 os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='password')
 
-if openai_api_key and uploaded_file:
+
+if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
     llm = 'gpt-4o'
     chat = ChatOpenAI(model=llm)
