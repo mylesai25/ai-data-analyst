@@ -34,7 +34,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # dataset to use
     df = pd.read_csv(uploaded_file)
     engine = create_engine("sqlite:///airline.db")
-    df.to_sql('airline-1',engine,index=False)
+    df.to_sql('airline-2',engine,index=False)
     
     prompt = ChatPromptTemplate.from_messages(
       [
