@@ -55,7 +55,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
 
     db = create_sql_database(uploaded_file)
     
-    agent_executor = create_sql_agent(chat, db=db, prompt=prompt, agent_type="openai-tools", verbose=False)
+    agent_executor = create_sql_agent(chat, db=db, prompt=prompt, agent_type="openai-tools", verbose=True)
     agent_with_chat_history = RunnableWithMessageHistory(
         agent_executor,
         # This is needed because in most real world scenarios, a session id is needed
@@ -83,7 +83,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             st.markdown(prompt)
         # Display assistant response in chat message container
         with st.spinner(text='Thinking'):
-                stream = agent_with_chat_history.invoke({'input':prompt}, config={'configurable': {'session_id': memory}})
+                stream = agent_with_chat_history.invoke({'input':prompt}, config={'configurable': {'session_id': "<foo>"}})
         with st.chat_message("assistant"):
                 st.write(stream)
                 response = stream['output']
