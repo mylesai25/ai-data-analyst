@@ -20,18 +20,18 @@ if "uploaded_files" not in st.session_state:
 
 uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 
-# dataset to use
-df = pd.read_csv(uploaded_file)
-engine = create_engine("sqlite:///airline.db")
-df.to_sql('airline-12345',engine,index=False)
 
 # area to input your API Key
 openai_api_key = st.sidebar.text_input('OpenAI API Key', type='password')
 
-
 # model used
 llm = 'gpt-4o'
 chat = ChatOpenAI(model=llm)
+
+# dataset to use
+df = pd.read_csv(uploaded_file)
+engine = create_engine("sqlite:///airline.db")
+df.to_sql('airline-1',engine,index=False)
 
 prompt = ChatPromptTemplate.from_messages(
   [
