@@ -1,5 +1,4 @@
 import streamlit as st
-from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagePlaceholder
 from langchain_community.chat_message_histories import ChatMessageHistory
@@ -8,6 +7,7 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.agent_toolkits import create_sql_agent
 from langchain_community.utilities import SQLDatabase
 from langchain.agents import AgentExecutor
+from langchain_openai import ChatOpenAI
 from sqlalchemy import create_engine
 
 
