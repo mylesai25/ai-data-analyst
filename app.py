@@ -72,6 +72,6 @@ if prompt := st.chat_input("Ask questions about your data"):
         st.markdown(prompt)
     # Display assistant response in chat message container
     with st.chat_message("assistant"):
-        stream = agent_with_chat_history.stream({'input':prompt}, config={'configurable': {'session_id': 'test-session'})
+        stream = agent_with_chat_history.stream({'input':prompt}, config={'configurable': {'session_id': 'test-session'}})
         response = st.write_stream(stream)
     st.session_state.messages.append({"role": "assistant", "content": response}
