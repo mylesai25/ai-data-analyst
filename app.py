@@ -82,9 +82,9 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         with st.chat_message("user"):
             st.markdown(prompt)
         # Display assistant response in chat message container
+        with st.spinner(text='Thinking'):
+                stream = agent_with_chat_history.invoke({'input':prompt}, config={'configurable': {'session_id': memory}})
         with st.chat_message("assistant"):
-            with st.spinner(text='Thinking'):
-                stream = agent_with_chat_history.invoke({'input':prompt}, config={'configurable': {'session_id': 'test-session'}})
                 response = stream['output']
                 st.write(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
