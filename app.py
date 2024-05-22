@@ -38,7 +38,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         return df
     
     @st.cache_resource
-    def create_chat_agent(_database):
+    def create_chat_agent(df):
         prompt = ChatPromptTemplate.from_messages(
           [
             (
@@ -67,8 +67,8 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         )
         return agent_with_chat_history
         
-    db = create_sql_database(uploaded_file)
-    agent_with_chat_history = create_chat_agent(db)
+    df = create_df_database(uploaded_file)
+    agent_with_chat_history = create_chat_agent(df)
     
     # Initialize chat history
     if "messages" not in st.session_state:
