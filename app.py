@@ -56,7 +56,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     
         
         
-        agent_executor = create_pandas_dataframe_agent(chat, df, prompt=prompt, agent_type=AgentType.OPENAI_FUNCTIONS, verbose=True)
+        agent_executor = create_pandas_dataframe_agent(chat, df, prompt=prompt, agent_type='openai-tools', verbose=True)
         agent_with_chat_history = RunnableWithMessageHistory(
             agent_executor,
             # This is needed because in most real world scenarios, a session id is needed
@@ -90,6 +90,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         with st.spinner(text='Thinking'):
                 stream = agent_with_chat_history.invoke({'input':prompt}, config={'configurable': {'session_id': "test-session"}})
         with st.chat_message("assistant"):
+                st.write(stream)
                 response = stream['output']
                 st.write(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
