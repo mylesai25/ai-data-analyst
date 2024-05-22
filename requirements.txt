@@ -7,3 +7,4 @@ langchain-core
 langchain-community
 langchain-openai
 langchain-experimental
+tabulate
