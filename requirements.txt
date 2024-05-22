@@ -8,4 +8,4 @@ langchain-community
 langchain-openai
 langchain-experimental
 tabulate
-matplotlib.pyplot
+matplotlib
