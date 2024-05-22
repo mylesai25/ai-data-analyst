@@ -4,8 +4,8 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain_core.chat_history import BaseChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
-from langchain_community.agent_toolkits import create_sql_agent
-from langchain_community.utilities import SQLDatabase
+from langchain.agents.agent_types import AgentType
+from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe_agent
 from langchain.agents import AgentExecutor
 from langchain_openai import ChatOpenAI
 from sqlalchemy import create_engine
