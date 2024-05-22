@@ -62,7 +62,14 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
           ]
         )
         
-        memory = ChatMessageHistory(session_id='test-session')
+        
+        store = {}
+        
+        
+        def get_session_history(session_id: str) -> BaseChatMessageHistory:
+            if session_id not in store:
+                store[session_id] = ChatMessageHistory()
+            return store[session_id]
     
         
         
@@ -71,7 +78,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             agent_executor,
             # This is needed because in most real world scenarios, a session id is needed
             # It isn't really used here because we are using a simple in memory ChatMessageHistory
-            lambda session_id: memory,
+            get_session_history,
             input_messages_key="input",
             history_messages_key="chat_history",
         )
