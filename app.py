@@ -22,6 +22,15 @@ if "uploaded_files" not in st.session_state:
 
 uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 
+if st.sidebar.button("Clear Chat"):
+    st.session_state.messages = []
+    st.session_state.conversation = None
+    st.session_state.chat_history = None
+    st.session_state.trace_id = None
+    st.session_state.file_name =  None
+    st.session_state.page = None
+    st.session_state.chat_engine = None
+
 
 # area to input your API Key
 os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='password')
