@@ -9,6 +9,7 @@ from langchain_experimental.agents.agent_toolkits import create_pandas_dataframe
 from langchain.agents import AgentExecutor
 from langchain_openai import ChatOpenAI
 from sqlalchemy import create_engine
+import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
