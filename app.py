@@ -45,8 +45,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
               "system",
               "You are an expert data analysis with a PhD in data science. Answer all questions with detail and explain your reasoning. Use the chat history for context for your next answer.",
             ),
-            MessagesPlaceholder("chat_history"),
-            ('human', '{input}'),
+            ('human', 'If applicable, use the chat history ```{chat_history}``` to inform the answer to this query: {input}'),
             MessagesPlaceholder("agent_scratchpad"),
 
           ]
