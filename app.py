@@ -13,6 +13,16 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
+# FUNCTIONS
+def extract_graphs(content):
+  # takes graph from content object
+  # returns a list of images to display
+  return [Image.open(io.BytesIO(client.files.content(item.image_file.file_id).read())) for item in content if item.type == 'image_file']
+
+def get_message_text(content):
+  # gets text from content object
+  # returns text to display on screen
+  return content[-1].text.value
 
 # Title of app
 st.title('AI Data Analyst')
@@ -41,49 +51,11 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     llm = 'gpt-4o'
     chat = ChatOpenAI(model=llm, temperature=0)
     
-    # dataset to use
     @st.cache_resource
-    def create_df_database(uploaded_file):
-        df = pd.read_csv(uploaded_file)
-        return df
-    
-    @st.cache_resource
-    def create_chat_agent(df):
-        prompt = ChatPromptTemplate.from_messages(
-          [
-            (
-              "system",
-              "You are an expert data analysis with a PhD in data science. Answer all questions with detail and explain your reasoning. Use the chat history for context for your next answer.",
-            ),
-            MessagesPlaceholder("chat_history"),
-            ('human', 'Answer this query in a detailed and polite manner: {input}'),
-            MessagesPlaceholder("agent_scratchpad"),
+    def create_message_thread():
+        return client.beta.threads.create()
 
-          ]
-        )
-        
-        
-        store = {}
-        
-        
-        def get_session_history(session_id: str) -> BaseChatMessageHistory:
-            if session_id not in store:
-                store[session_id] = ChatMessageHistory()
-            return store[session_id]
-    
-        
-        
-        agent_executor = create_pandas_dataframe_agent(chat, df, prompt=prompt, agent_type='openai-tools', verbose=True)
-        agent_with_chat_history = RunnableWithMessageHistory(
-            agent_executor,
-            get_session_history,
-            input_messages_key="input",
-            history_messages_key="chat_history",
-        )
-        return agent_with_chat_history
-        
-    df = create_df_database(uploaded_file)
-    agent_with_chat_history = create_chat_agent(df)
+    thread = create_message_thread()
     
     # Initialize chat history
     if "messages" not in st.session_state:
@@ -103,8 +75,26 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             st.markdown(prompt)
         # Display assistant response in chat message container
         with st.spinner(text='Thinking'):
-                stream = agent_with_chat_history.invoke({'input':prompt}, config={'configurable': {'session_id': "abc123"}})
+            thread_message = client.beta.threads.messages.create(
+              thread.id,
+              role="user",
+              content=prompt)
+            run = client.beta.threads.runs.create_and_poll(
+                thread_id = thread.id,
+                assistant_id=assistant.id,
+                )
+            if run.status == 'completed':
+                messages = client.beta.threads.messages.list(
+                      thread_id = thread.id
+                  )
+                content = messages.data[0].content
+            else:
+                st.write(run.status)
+            
         with st.chat_message("assistant"):
-                response = stream['output']
-                st.write(response)
-        st.session_state.messages.append({"role": "assistant", "content": response})
+            text = get_message_text(content)
+            plots = extract_graphs(content)
+            st.write(text)
+            for plot in plots:
+                st.write(plot)
+        st.session_state.messages.append({"role": "assistant", "content": text})
