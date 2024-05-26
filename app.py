@@ -50,6 +50,16 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
     llm = 'gpt-4o'
     chat = ChatOpenAI(model=llm, temperature=0)
+  
+    @st.cache_resource
+    def create_file(uploaded_file):
+      file = client.files.create(
+        file=open(uploaded_file, "rb"),
+        purpose='assistants'
+      )
+      return file
+    create_file(uploaded_file)
+
     
     @st.cache_resource
     def create_message_thread():
@@ -78,7 +88,13 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             thread_message = client.beta.threads.messages.create(
               thread.id,
               role="user",
-              content=prompt)
+              content=prompt.
+              attachments=[
+                {
+                    "file_id": file.id,
+                    "tools": [{"type": "code_interpreter"}]
+                }
+            ])
             run = client.beta.threads.runs.create_and_poll(
                 thread_id = thread.id,
                 assistant_id=assistant.id,
