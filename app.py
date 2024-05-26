@@ -12,6 +12,7 @@ from sqlalchemy import create_engine
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
+from openai import OpenAI
 
 # FUNCTIONS
 def extract_graphs(content):
