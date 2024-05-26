@@ -48,8 +48,7 @@ os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='pas
 
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
-    llm = 'gpt-4o'
-    chat = ChatOpenAI(model=llm, temperature=0)
+    client = OpenAI()
   
     @st.cache_resource
     def create_file(uploaded_file):
