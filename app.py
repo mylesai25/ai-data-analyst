@@ -88,7 +88,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             thread_message = client.beta.threads.messages.create(
               thread.id,
               role="user",
-              content=prompt.
+              content=prompt,
               attachments=[
                 {
                     "file_id": file.id,
