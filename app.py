@@ -39,7 +39,7 @@ def bytes_to_wav(byte_data, channels=2, sample_width=2, frame_rate=44100):
     - A BytesIO object containing the WAV file data.
     """
     # Create a BytesIO object to hold the WAV file data
-    wav_io = io.BytesIO()
+    wav_io = BytesIO()
     
     # Create a WAV file in memory
     with wave.open(wav_io, 'wb') as wav_file:
