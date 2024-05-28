@@ -96,7 +96,10 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             file=open(file_name, 'rb')
         )
         st.write(transcript.text)
-        st.session_state.audio_text = transcript.text
+        if transcript:
+            st.session_state.audio_text = transcript.text
+            transcript = None
+            audio_bytes = None
       else:
         st.session_state.audio_text = None
 
@@ -167,7 +170,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             for plot in plots:
                 st.write(plot)
         st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
-        st.session_state.audio_text = None
+        
     
     
 
