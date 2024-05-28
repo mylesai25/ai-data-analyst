@@ -82,7 +82,7 @@ os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='pas
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
     client = OpenAI()
-
+    transcript = ''
     with st.sidebar.container():
       audio_bytes = audio_recorder()
       if audio_bytes:
@@ -114,7 +114,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
               st.markdown(message["content"])
         
     # Accept user input
-    if prompt := st.text_input("Ask questions about your data"):
+    if prompt := st.text_input("Enter chat prompt here", transcript):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         # Display user message in chat message container
