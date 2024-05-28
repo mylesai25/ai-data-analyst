@@ -111,7 +111,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
                 messages = client.beta.threads.messages.list(
                       thread_id = thread.id
                   )
-                content = messages.data[0].contet
+                content = messages.data[0].content
                 st.write(messages)
             else:
                 st.write(run.status)
