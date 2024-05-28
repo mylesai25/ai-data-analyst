@@ -41,7 +41,7 @@ def transcribe_audio(audio_bytes, api_key):
     }
 
     # Send POST request with audio bytes
-    response = requests.post(url, headers=headers, data=audio_bytes, params=model)
+    response = requests.post(url, headers=headers, data=audio_bytes, param=model)
 
     # Check the response
     if response.status_code == 200:
