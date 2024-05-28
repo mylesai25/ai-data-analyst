@@ -19,10 +19,39 @@ from PIL import Image
 from audio_recorder_streamlit import audio_recorder
 from pathlib import Path
 from openai import OpenAI
+import wave
 
 
 
 # FUNCTIONS
+
+def bytes_to_wav(byte_data, channels=2, sample_width=2, frame_rate=44100):
+    """
+    Convert byte data to a WAV format and return a BytesIO object.
+
+    Parameters:
+    - byte_data: The raw audio data as bytes.
+    - channels: The number of audio channels (1 for mono, 2 for stereo).
+    - sample_width: The sample width in bytes (1 for 8-bit, 2 for 16-bit).
+    - frame_rate: The sample rate of the audio (e.g., 44100, 48000).
+
+    Returns:
+    - A BytesIO object containing the WAV file data.
+    """
+    # Create a BytesIO object to hold the WAV file data
+    wav_io = io.BytesIO()
+    
+    # Create a WAV file in memory
+    with wave.open(wav_io, 'wb') as wav_file:
+        wav_file.setnchannels(channels)
+        wav_file.setsampwidth(sample_width)
+        wav_file.setframerate(frame_rate)
+        wav_file.writeframes(byte_data)
+    
+    # Move the pointer to the beginning of the BytesIO object to read from it later
+    wav_io.seek(0)
+    return wav_io
+
 def extract_graphs(content):
   # takes graph from content object
   # returns a list of images to display
@@ -67,16 +96,13 @@ if st.sidebar.button("Clear Chat"):
 # area to input your API Key
 os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='password')
 
-    
-
-
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
     client = OpenAI()
 
     with st.sidebar.container():
       audio_bytes = audio_recorder()
-      st.write(type(audio_bytes))
+      wav_io = bytes_to_wav(audio_bytes)
       if audio_bytes:
         st.sidebar.audio(audio_bytes, format='audio/mp3')
         # response = client.audio.speech.create(
@@ -86,7 +112,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         # )
         transcription = client.audio.transcriptions.create(
           model="whisper-1", 
-          file=audio_bytes
+          file=wav_io
         )
         st.write(transcription.text)
 
