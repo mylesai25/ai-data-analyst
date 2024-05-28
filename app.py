@@ -121,4 +121,4 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             st.markdown(text)
             for plot in plots:
                 st.markdown(plot)
-        st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots})
+        st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
