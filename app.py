@@ -60,9 +60,9 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         purpose='assistants'
       )
       return file
-    create_file(uploaded_file)
-
     
+    file = create_file(uploaded_file)
+
     @st.cache_resource
     def create_message_thread():
         return client.beta.threads.create()
