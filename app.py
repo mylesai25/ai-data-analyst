@@ -66,28 +66,30 @@ if st.sidebar.button("Clear Chat"):
 
 # area to input your API Key
 os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='password')
-with st.sidebar.container():
-  audio_bytes = audio_recorder()
-  if audio_bytes:
-    audio_file = st.sidebar.audio(audio_bytes, format='audio/wav')
-    response = client.audio.speech.create(
-      model="tts-1",
-      voice="alloy",
-      input="Today is a wonderful day to build something people love!"
-    )
-    transcription = client.audio.transcriptions.create(
-      model="whisper-1", 
-      file=audio_file
-    )
-    st.write(transcription.text)
 
-response.stream_to_file(speech_file_path)
     
 
 
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
     client = OpenAI()
+
+    with st.sidebar.container():
+      audio_bytes = audio_recorder()
+      if audio_bytes:
+        audio_file = st.sidebar.audio(audio_bytes, format='audio/wav')
+        response = client.audio.speech.create(
+          model="tts-1",
+          voice="alloy",
+          input="Today is a wonderful day to build something people love!"
+        )
+        transcription = client.audio.transcriptions.create(
+          model="whisper-1", 
+          file=audio_file
+        )
+        st.write(transcription.text)
+
+    # response.stream_to_file(speech_file_path)
     
     file = create_file(uploaded_file)
 
