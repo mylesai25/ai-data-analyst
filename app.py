@@ -158,5 +158,5 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
                 st.write(plot)
         st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
     
-    prompt = st.text_input("Enter chat prompt here", audio_text)
+    st.session_state.prompt = st.text_input("Enter chat prompt here", audio_text)
 
