@@ -99,7 +99,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             ])
             run = client.beta.threads.runs.create_and_poll(
                 thread_id = thread.id,
-                assistant_id=assistant.id,
+                assistant_id='asst_yiM2UfX3tc2bY9nttV2g7KJi',
                 )
             if run.status == 'completed':
                 messages = client.beta.threads.messages.list(
