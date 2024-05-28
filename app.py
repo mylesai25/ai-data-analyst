@@ -128,7 +128,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             st.markdown(prompt)
         # Display assistant response in chat message container
         with st.spinner(text='Thinking'):
-            if len(st.session_state.messages) < 1:
+            if len(st.session_state.messages) < 2:
                 thread_message = client.beta.threads.messages.create(
                   st.session_state.thread.id,
                   role="user",
