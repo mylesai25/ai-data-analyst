@@ -111,16 +111,15 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
                 messages = client.beta.threads.messages.list(
                       thread_id = thread.id
                   )
-                data = messages.data
+                content = messages.data[0].contet
                 st.write(messages)
             else:
                 st.write(run.status)
             
         with st.chat_message("assistant"):
-            for item in data:
-              text = get_message_text(item.content)
-              plots = extract_graphs(item.content)
-              st.markdown(text)
-              for plot in plots:
-                  st.write(plot)
+            text = get_message_text(content)
+            plots = extract_graphs(content)
+            st.markdown(text)
+            for plot in plots:
+                st.write(plot)
         st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
