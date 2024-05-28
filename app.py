@@ -128,16 +128,23 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             st.markdown(prompt)
         # Display assistant response in chat message container
         with st.spinner(text='Thinking'):
-            thread_message = client.beta.threads.messages.create(
-              st.session_state.thread.id,
-              role="user",
-              content=prompt,
-              attachments=[
-                {
-                    "file_id": file.id,
-                    "tools": [{"type": "code_interpreter"}]
-                }
-            ])
+            if len(st.session_state.messages) < 1:
+                thread_message = client.beta.threads.messages.create(
+                  st.session_state.thread.id,
+                  role="user",
+                  content=prompt,
+                  attachments=[
+                    {
+                        "file_id": file.id,
+                        "tools": [{"type": "code_interpreter"}]
+                    }
+                ])
+            else:
+                thread_message = client.beta.threads.messages.create(
+                st.session_state.thread.id,
+                role="user",
+                content=prompt
+                )
             run = client.beta.threads.runs.create_and_poll(
                 thread_id = st.session_state.thread.id,
                 assistant_id='asst_yiM2UfX3tc2bY9nttV2g7KJi',
