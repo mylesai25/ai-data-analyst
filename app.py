@@ -19,15 +19,15 @@ from PIL import Image
 from audio_recorder_streamlit import audio_recorder
 from pathlib import Path
 from openai import OpenAI
-from pydub import AudioSegment
+import wave
 
 
 
 # FUNCTIONS
 
-def bytes_to_mp3(byte_data, channels=2, sample_width=2, frame_rate=44100):
+def bytes_to_wav(byte_data, channels=2, sample_width=2, frame_rate=44100):
     """
-    Convert byte data to an MP3 format and return a BytesIO object.
+    Convert byte data to a WAV format and return a BytesIO object.
 
     Parameters:
     - byte_data: The raw audio data as bytes.
@@ -36,23 +36,21 @@ def bytes_to_mp3(byte_data, channels=2, sample_width=2, frame_rate=44100):
     - frame_rate: The sample rate of the audio (e.g., 44100, 48000).
 
     Returns:
-    - A BytesIO object containing the MP3 file data.
+    - A BytesIO object containing the WAV file data.
     """
-    # Create an AudioSegment from the raw audio bytes
-    audio = AudioSegment(
-        data=byte_data,
-        sample_width=sample_width,
-        frame_rate=frame_rate,
-        channels=channels
-    )
-
-    # Export the AudioSegment to a BytesIO object as MP3
-    mp3_io = BytesIO()
-    audio.export(mp3_io, format="mp3")
+    # Create a BytesIO object to hold the WAV file data
+    wav_io = BytesIO()
+    
+    # Create a WAV file in memory
+    with wave.open(wav_io, 'wb') as wav_file:
+        wav_file.setnchannels(channels)
+        wav_file.setsampwidth(sample_width)
+        wav_file.setframerate(frame_rate)
+        wav_file.writeframes(byte_data)
     
     # Reset the pointer to the beginning of the BytesIO object
-    mp3_io.seek(0)
-    return mp3_io
+    wav_io.seek(0)
+    return wav_io
 
 def extract_graphs(content):
   # takes graph from content object
@@ -104,7 +102,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
 
     with st.sidebar.container():
       audio_bytes = audio_recorder()
-      mp3_io = bytes_to_mp3(audio_bytes)
+      wav_io = bytes_to_wav(audio_bytes)
       if audio_bytes:
         st.sidebar.audio(audio_bytes, format='audio/mp3')
         # response = client.audio.speech.create(
