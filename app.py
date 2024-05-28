@@ -26,31 +26,6 @@ import requests
 
 # FUNCTIONS
 
-def transcribe_audio(audio_bytes, api_key):
-    # Endpoint for the OpenAI speech recognition
-    url = 'https://api.openai.com/v1/audio/transcriptions'
-
-    # Prepare headers
-    headers = {
-        'Authorization': f'Bearer {api_key}',
-        'Content-Type': 'audio/wav',  # Change according to your audio file type
-    }
-
-    json = {
-        'model': 'whisper-1',
-        'file': f"data:audio/wav;base64, {audio_bytes}"
-    }
-    
-    # Send POST request with audio bytes
-    response = requests.post(url, headers=headers, payload=json)
-
-    # Check the response
-    if response.status_code == 200:
-        return response.json()  # Returns the transcription results
-    else:
-        return response.text  # Returns error message if any
-
-
 def extract_graphs(content):
   # takes graph from content object
   # returns a list of images to display
@@ -103,7 +78,10 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
       audio_bytes = audio_recorder()
       if audio_bytes:
         st.sidebar.audio(audio_bytes, format='audio/mp3')
-        transcript = transcribe_audio(audio_bytes, os.environ['OPENAI_API_KEY'])
+        transcript = client.audio.transcriptions.create(
+            model='whisper-1',
+            file=f"data:audio/wav;base64, {audio_bytes}"
+        )
         st.write(transcript)
 
     # response.stream_to_file(speech_file_path)
