@@ -11,4 +11,4 @@ tabulate
 matplotlib
 Pillow
 audio-recorder-streamlit
-pydub
+speech_recognition
