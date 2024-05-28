@@ -13,12 +13,14 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 from openai import OpenAI
+from io import StringIO
+from io import BytesIO
 
 # FUNCTIONS
 def extract_graphs(content):
   # takes graph from content object
   # returns a list of images to display
-  return [Image.open(io.BytesIO(client.files.content(item.image_file.file_id).read())) for item in content if item.type == 'image_file']
+  return [Image.open(BytesIO(client.files.content(item.image_file.file_id).read())) for item in content if item.type == 'image_file']
 
 def get_message_text(content):
   # gets text from content object
@@ -54,7 +56,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     @st.cache_resource
     def create_file(uploaded_file):
       file = client.files.create(
-        file=open(uploaded_file.getvalue(), "rb"),
+        file=open(StringIO(uploaded_file.getvalue().decode('utf-8')), "rb"),
         purpose='assistants'
       )
       return file
