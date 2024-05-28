@@ -36,12 +36,13 @@ def transcribe_audio(audio_bytes, api_key):
         'Content-Type': 'audio/wav',  # Change according to your audio file type
     }
 
-    model = {
+    json = {
         'model': 'whisper-1',
+        'file': f"data:audio/wav;base64, {audio_bytes}"
     }
-
+    
     # Send POST request with audio bytes
-    response = requests.post(url, headers=headers, data=audio_bytes, param=model)
+    response = requests.post(url, headers=headers, payload=json)
 
     # Check the response
     if response.status_code == 200:
