@@ -19,38 +19,27 @@ from PIL import Image
 from audio_recorder_streamlit import audio_recorder
 from pathlib import Path
 from openai import OpenAI
-import wave
+import speech_recognition as sr
 
 
 
 # FUNCTIONS
 
-def bytes_to_wav(byte_data, channels=2, sample_width=2, frame_rate=44100):
-    """
-    Convert byte data to a WAV format and return a BytesIO object.
-
-    Parameters:
-    - byte_data: The raw audio data as bytes.
-    - channels: The number of audio channels (1 for mono, 2 for stereo).
-    - sample_width: The sample width in bytes (1 for 8-bit, 2 for 16-bit).
-    - frame_rate: The sample rate of the audio (e.g., 44100, 48000).
-
-    Returns:
-    - A BytesIO object containing the WAV file data.
-    """
-    # Create a BytesIO object to hold the WAV file data
-    wav_io = BytesIO()
+def bytes_to_text(audio_bytes):
+    # Initialize the recognizer
+    recognizer = sr.Recognizer()
+    # Convert byte data to audio data
+    audio_data = sr.AudioData(audio_bytes, rate=16000, sample_width=2, channels=1)
     
-    # Create a WAV file in memory
-    with wave.open(wav_io, 'wb') as wav_file:
-        wav_file.setnchannels(channels)
-        wav_file.setsampwidth(sample_width)
-        wav_file.setframerate(frame_rate)
-        wav_file.writeframes(byte_data)
-    
-    # Reset the pointer to the beginning of the BytesIO object
-    wav_io.seek(0)
-    return wav_io
+    try:
+        # Recognize speech using Google's free speech recognition
+        text = recognizer.recognize_google(audio_data)
+        return text
+    except sr.UnknownValueError:
+        return "Google Speech Recognition could not understand audio"
+    except sr.RequestError as e:
+        return f"Could not request results from Google Speech Recognition service; {e}"
+
 
 def extract_graphs(content):
   # takes graph from content object
@@ -102,7 +91,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
 
     with st.sidebar.container():
       audio_bytes = audio_recorder()
-      wav_io = bytes_to_wav(audio_bytes)
+      transcript = bytes_to_wav(audio_bytes)
       if audio_bytes:
         st.sidebar.audio(audio_bytes, format='audio/mp3')
         # response = client.audio.speech.create(
@@ -110,11 +99,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         #   voice="alloy",
         #   input="Today is a wonderful day to build something people love!"
         # )
-        transcription = client.audio.transcriptions.create(
-          model="whisper-1", 
-          file=wav_io
-        )
-        st.write(transcription.text)
+        st.write(transcript)
 
     # response.stream_to_file(speech_file_path)
     
