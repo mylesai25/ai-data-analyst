@@ -77,7 +77,12 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+            if message('role') == 'assistant':
+              st.markdown(message['content']['text']
+              for fig in message['content']['plots']:
+                st.markdown(fig)
+            else:
+              st.markdown(message["content"])
     
     # Accept user input
     if prompt := st.chat_input("Ask questions about your data"):
@@ -113,7 +118,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         with st.chat_message("assistant"):
             text = get_message_text(content)
             plots = extract_graphs(content)
-            st.write(text)
+            st.markdown(text)
             for plot in plots:
-                st.write(plot)
-        st.session_state.messages.append({"role": "assistant", "content": text})
+                st.markdown(plot)
+        st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots]})
