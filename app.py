@@ -77,12 +77,12 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     with st.sidebar.container():
       audio_bytes = audio_recorder()
       if audio_bytes:
-        audio_file = st.sidebar.audio(audio_bytes, format='audio/wav')
-        response = client.audio.speech.create(
-          model="tts-1",
-          voice="alloy",
-          input="Today is a wonderful day to build something people love!"
-        )
+        audio_file = st.sidebar.audio(audio_bytes, format='audio/mp2')
+        # response = client.audio.speech.create(
+        #   model="tts-1",
+        #   voice="alloy",
+        #   input="Today is a wonderful day to build something people love!"
+        # )
         transcription = client.audio.transcriptions.create(
           model="whisper-1", 
           file=audio_file
