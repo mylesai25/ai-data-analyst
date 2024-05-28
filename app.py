@@ -23,6 +23,7 @@ import speech_recognition as sr
 import requests
 import datetime
 from tempfile import NamedTemporaryFile
+import base64
 
 
 
