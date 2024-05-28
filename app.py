@@ -87,7 +87,6 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
       audio_bytes = audio_recorder()
       if audio_bytes:
         file_name = save_audio_file(audio_bytes, 'wav')
-        st.sidebar.audio(audio_bytes, format='audio/mp3')
         transcript = client.audio.transcriptions.create(
             model='whisper-1',
             file=open(file_name, 'rb')
@@ -121,6 +120,8 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         # Display user message in chat message container
         with st.chat_message("user"):
             st.markdown(prompt)
+            if audio_bytes:
+                st.markdown(prompt)
         # Display assistant response in chat message container
         with st.spinner(text='Thinking'):
             thread_message = client.beta.threads.messages.create(
