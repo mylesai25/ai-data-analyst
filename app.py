@@ -78,7 +78,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             if message('role') == 'assistant':
-              st.markdown(message['content']['text']
+              st.markdown(message['content']['text'])
               for fig in message['content']['plots']:
                 st.markdown(fig)
             else:
