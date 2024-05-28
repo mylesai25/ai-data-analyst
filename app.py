@@ -16,6 +16,7 @@ from openai import OpenAI
 from io import StringIO
 from io import BytesIO
 from PIL import Image
+from audio_recorder_streamlit import audio_recorder
 
 # FUNCTIONS
 def extract_graphs(content):
@@ -61,6 +62,9 @@ if st.sidebar.button("Clear Chat"):
 
 # area to input your API Key
 os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='password')
+audio_bytes = st.side.bar.audio_recorder()
+if audio_bytes:
+  st.audio(audio_bytes, format='audio/wav')
 
 
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
@@ -123,3 +127,4 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             for plot in plots:
                 st.write(plot)
         st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
+        
