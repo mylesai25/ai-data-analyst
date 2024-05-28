@@ -112,6 +112,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
                       thread_id = thread.id
                   )
                 content = messages.data[0].content
+                st.write(messages)
             else:
                 st.write(run.status)
             
