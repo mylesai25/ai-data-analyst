@@ -35,6 +35,44 @@ def save_audio_file(audio_bytes, file_extension):
 
     return file_name
 
+def autoplay_audio(file_path: str):
+    with open(file_path, "rb") as f:
+        data = f.read()
+        b64 = base64.b64encode(data).decode()
+        md = f"""
+            <audio controls autoplay="true">
+            <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+            </audio>
+            """
+        st.markdown(
+            md,
+            unsafe_allow_html=True,
+        )
+
+def response_audio(text):
+    summary_response = client.chat.completions.create(
+        model='gpt-4o,
+        messages =[
+        {'role': 'system', 'content': 'You are a helpful assistant who specializes in summarizing text from an AI data analyst.'},
+        {
+        
+    )
+    
+    summary = summary_response.choices[0].message['content']
+    with NamedTemporaryFile(suffix='.mp3') as temp:
+        response = client.audio.speech.create(
+            model='tts-1',
+            voice='alloy',
+            input=summary
+        )
+        tempname = temp.name
+        response.stream_to_file(tempname)
+        autoplay_audio(tempname)
+    return
+    
+    
+    
+
 def extract_graphs(content):
   # takes graph from content object
   # returns a list of images to display
@@ -169,6 +207,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             st.markdown(text)
             for plot in plots:
                 st.write(plot)
+            response_audio(text)
         st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
         
     
