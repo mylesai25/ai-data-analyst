@@ -65,8 +65,6 @@ if "uploaded_files" not in st.session_state:
 
 uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 
-if 'prompt' not in st.session_state:
-    st.session_state.prompt = None
 
 if st.sidebar.button("Clear Chat"):
     st.session_state.messages = []
@@ -77,7 +75,7 @@ if st.sidebar.button("Clear Chat"):
     st.session_state.file_name =  None
     st.session_state.page = None
     st.session_state.chat_engine = None
-    st.session_state.prompt = None
+
 
 
 # area to input your API Key
@@ -120,18 +118,18 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
               st.markdown(message["content"])
         
     # Accept user input
-    if prompt =: st.text_input("Enter chat prompt here", audio_text)
+    if prompt := st.text_input("Enter chat prompt here", audio_text)
         # Add user message to chat history
-        st.session_state.messages.append({"role": "user", "content": st.session_state.prompt})
+        st.session_state.messages.append({"role": "user", "content": prompt})
         # Display user message in chat message container
         with st.chat_message("user"):
-            st.markdown(st.session_state.prompt)
+            st.markdown(prompt)
         # Display assistant response in chat message container
         with st.spinner(text='Thinking'):
             thread_message = client.beta.threads.messages.create(
               st.session_state.thread.id,
               role="user",
-              content=st.session_state.prompt,
+              content=prompt,
               attachments=[
                 {
                     "file_id": file.id,
