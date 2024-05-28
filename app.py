@@ -58,7 +58,7 @@ def response_audio(text):
         {'role': 'user', 'content': text}
         ]
     )
-    
+    st.write(summary_response)
     summary = summary_response.choices[0].message
     with NamedTemporaryFile(suffix='.mp3') as temp:
         response = client.audio.speech.create(
