@@ -56,7 +56,7 @@ def response_audio(text):
         messages =[
         {'role': 'system', 'content': 'You are a helpful assistant who specializes in summarizing text from an AI data analyst.'},
         {'role': 'user', 'content': text}
-        
+        ]
     )
     
     summary = summary_response.choices[0].message['content']
