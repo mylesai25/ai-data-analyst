@@ -116,7 +116,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
               st.markdown(message["content"])
         
     # Accept user input
-    if prompt := st.text_input("Enter chat prompt here", audio_text):
+    if prompt: 
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         # Display user message in chat message container
@@ -153,4 +153,6 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             for plot in plots:
                 st.write(plot)
         st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
+    
+    prompt = st.text_input("Enter chat prompt here", audio_text)
 
