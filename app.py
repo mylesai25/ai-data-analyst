@@ -120,7 +120,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
               st.markdown(message["content"])
         
     # Accept user input
-    if prompt: 
+    if st.session_state.prompt: 
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         # Display user message in chat message container
