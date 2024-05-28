@@ -56,7 +56,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     @st.cache_resource
     def create_file(uploaded_file):
       file = client.files.create(
-        file=open(StringIO(uploaded_file.getvalue().decode('utf-8')).read(), "rb"),
+        file=open(uploaded_file.getvalue().decode('utf-8'), "rb"),
         purpose='assistants'
       )
       return file
