@@ -28,6 +28,18 @@ def get_message_text(content):
   # returns text to display on screen
   return content[-1].text.value
 
+@st.cache_resource
+def create_message_thread():
+    return client.beta.threads.create()
+
+@st.cache_resource
+def create_file(uploaded_file):
+  file = client.files.create(
+    file=uploaded_file,
+    purpose='assistants'
+  )
+  return file
+
 # Title of app
 st.title('AI Data Analyst')
 
@@ -38,6 +50,7 @@ uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 
 if st.sidebar.button("Clear Chat"):
     st.session_state.messages = []
+    st.session_state.thread = create_message_thread()
     st.session_state.conversation = None
     st.session_state.chat_history = None
     st.session_state.trace_id = None
@@ -53,22 +66,10 @@ os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='pas
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
     client = OpenAI()
-  
-    @st.cache_resource
-    def create_file(uploaded_file):
-      file = client.files.create(
-        file=uploaded_file,
-        purpose='assistants'
-      )
-      return file
     
     file = create_file(uploaded_file)
 
-    @st.cache_resource
-    def create_message_thread():
-        return client.beta.threads.create()
-
-    thread = create_message_thread()
+    st.session_state.thread = create_message_thread()
     
     # Initialize chat history
     if "messages" not in st.session_state:
