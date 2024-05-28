@@ -59,7 +59,7 @@ def response_audio(text):
         ]
     )
     
-    summary = summary_response.choices[0].message['content']
+    summary = summary_response.choices[0].message
     with NamedTemporaryFile(suffix='.mp3') as temp:
         response = client.audio.speech.create(
             model='tts-1',
