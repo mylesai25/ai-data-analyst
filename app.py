@@ -19,7 +19,6 @@ from PIL import Image
 from audio_recorder_streamlit import audio_recorder
 from pathlib import Path
 from openai import OpenAI
-client = OpenAI()
 
 
 
@@ -78,7 +77,7 @@ with st.sidebar.container():
     )
     transcription = client.audio.transcriptions.create(
       model="whisper-1", 
-      file=audio
+      file=audio_file
     )
     st.write(transcription.text)
 
