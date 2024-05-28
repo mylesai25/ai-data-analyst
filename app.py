@@ -62,7 +62,7 @@ if st.sidebar.button("Clear Chat"):
 
 # area to input your API Key
 os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='password')
-audio_bytes = st.sidebar.audio_recorder()
+audio_bytes = audio_recorder()
 if audio_bytes:
   st.audio(audio_bytes, format='audio/wav')
 
