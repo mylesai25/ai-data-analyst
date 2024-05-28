@@ -47,7 +47,7 @@ def bytes_to_mp3(byte_data, channels=2, sample_width=2, frame_rate=44100):
     )
 
     # Export the AudioSegment to a BytesIO object as MP3
-    mp3_io = io.BytesIO()
+    mp3_io = BytesIO()
     audio.export(mp3_io, format="mp3")
     
     # Reset the pointer to the beginning of the BytesIO object
