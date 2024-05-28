@@ -15,6 +15,7 @@ import os
 from openai import OpenAI
 from io import StringIO
 from io import BytesIO
+from PIL import Image
 
 # FUNCTIONS
 def extract_graphs(content):
