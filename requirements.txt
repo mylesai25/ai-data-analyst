@@ -10,3 +10,4 @@ langchain-experimental
 tabulate
 matplotlib
 Pillow
+audio-recorder-streamlit
