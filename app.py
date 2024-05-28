@@ -150,7 +150,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             st.markdown(text)
             for plot in plots:
                 st.write(plot)
-    st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
+        st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
     default_chat_input_value = "Default Value"
     js = f"""
         <script>
