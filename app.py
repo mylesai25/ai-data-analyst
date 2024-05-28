@@ -17,6 +17,11 @@ from io import StringIO
 from io import BytesIO
 from PIL import Image
 from audio_recorder_streamlit import audio_recorder
+from pathlib import Path
+from openai import OpenAI
+client = OpenAI()
+
+
 
 # FUNCTIONS
 def extract_graphs(content):
@@ -65,7 +70,20 @@ os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='pas
 with st.sidebar.container():
   audio_bytes = audio_recorder()
   if audio_bytes:
-    st.sidebar.audio(audio_bytes, format='audio/wav')
+    audio_file = st.sidebar.audio(audio_bytes, format='audio/wav')
+    response = client.audio.speech.create(
+      model="tts-1",
+      voice="alloy",
+      input="Today is a wonderful day to build something people love!"
+    )
+    transcription = client.audio.transcriptions.create(
+      model="whisper-1", 
+      file=audio
+    )
+    st.write(transcription.text)
+
+response.stream_to_file(speech_file_path)
+    
 
 
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
