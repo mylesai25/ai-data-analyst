@@ -52,7 +52,7 @@ def autoplay_audio(file_path: str):
 
 def response_audio(text):
     summary_response = client.chat.completions.create(
-        model='gpt-4o,
+        model='gpt-4o',
         messages =[
         {'role': 'system', 'content': 'You are a helpful assistant who specializes in summarizing text from an AI data analyst.'},
         {
