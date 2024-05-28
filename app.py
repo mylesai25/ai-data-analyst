@@ -20,25 +20,30 @@ from audio_recorder_streamlit import audio_recorder
 from pathlib import Path
 from openai import OpenAI
 import speech_recognition as sr
+import requests
 
 
 
 # FUNCTIONS
 
-def bytes_to_text(audio_bytes):
-    # Initialize the recognizer
-    recognizer = sr.Recognizer()
-    # Convert byte data to audio data
-    audio_data = sr.AudioData(audio_bytes, rate=16000, sample_width=2, channels=1)
-    
-    try:
-        # Recognize speech using Google's free speech recognition
-        text = recognizer.recognize_google(audio_data)
-        return text
-    except sr.UnknownValueError:
-        return "Google Speech Recognition could not understand audio"
-    except sr.RequestError as e:
-        return f"Could not request results from Google Speech Recognition service; {e}"
+def transcribe_audio(audio_bytes, api_key):
+    # Endpoint for the OpenAI speech recognition
+    url = 'https://api.openai.com/v1/audio/transcriptions'
+
+    # Prepare headers
+    headers = {
+        'Authorization': f'Bearer {api_key}',
+        'Content-Type': 'audio/wav',  # Change according to your audio file type
+    }
+
+    # Send POST request with audio bytes
+    response = requests.post(url, headers=headers, data=audio_bytes)
+
+    # Check the response
+    if response.status_code == 200:
+        return response.json()  # Returns the transcription results
+    else:
+        return response.text  # Returns error message if any
 
 
 def extract_graphs(content):
@@ -94,11 +99,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
       transcript = bytes_to_text(audio_bytes)
       if audio_bytes:
         st.sidebar.audio(audio_bytes, format='audio/mp3')
-        # response = client.audio.speech.create(
-        #   model="tts-1",
-        #   voice="alloy",
-        #   input="Today is a wonderful day to build something people love!"
-        # )
+        transcript = transcribe_audio(audio_bytes, api_key)
         st.write(transcript)
 
     # response.stream_to_file(speech_file_path)
