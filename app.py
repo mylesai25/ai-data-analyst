@@ -64,7 +64,7 @@ if st.sidebar.button("Clear Chat"):
 os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='password')
 audio_bytes = audio_recorder()
 if audio_bytes:
-  st.audio(audio_bytes, format='audio/wav')
+  st.sidebar.audio(audio_bytes, format='audio/wav')
 
 
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
