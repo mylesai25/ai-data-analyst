@@ -19,7 +19,7 @@ from PIL import Image
 from audio_recorder_streamlit import audio_recorder
 from pathlib import Path
 from openai import OpenAI
-import wave
+from pydub import AudioSegment
 
 
 
