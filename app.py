@@ -22,6 +22,7 @@ from openai import OpenAI
 import speech_recognition as sr
 import requests
 import datetime
+from tempfile import NamedTemporaryFile
 
 
 
