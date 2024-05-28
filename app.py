@@ -25,7 +25,7 @@ import wave
 
 # FUNCTIONS
 
-def bytes_to_mp3(byte_data, channels, sample_width, frame_rate):
+def bytes_to_mp3(byte_data, channels=2, sample_width=2, frame_rate=44100):
     """
     Convert byte data to an MP3 format and return a BytesIO object.
 
