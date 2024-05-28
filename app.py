@@ -55,7 +55,7 @@ def response_audio(text):
         model='gpt-4o',
         messages =[
         {'role': 'system', 'content': 'You are a helpful assistant who specializes in summarizing text from an AI data analyst.'},
-        {
+        {'role': 'user', 'content': text}
         
     )
     
