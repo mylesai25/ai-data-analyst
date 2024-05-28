@@ -80,7 +80,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             if message['role'] == 'assistant':
               st.markdown(message['content']['text'])
               for fig in message['content']['plots']:
-                st.markdown(fig)
+                st.write(fig)
             else:
               st.markdown(message["content"])
     
@@ -120,5 +120,5 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             plots = extract_graphs(content)
             st.markdown(text)
             for plot in plots:
-                st.markdown(plot)
+                st.write(plot)
         st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
