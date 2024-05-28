@@ -121,6 +121,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         with st.chat_message("user"):
             st.markdown(prompt)
             if audio_bytes:
+                prompt = transcript
                 st.markdown(prompt)
         # Display assistant response in chat message container
         with st.spinner(text='Thinking'):
