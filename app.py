@@ -112,7 +112,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         # )
         transcription = client.audio.transcriptions.create(
           model="whisper-1", 
-          file=wave.open(wav_io, 'rb')
+          file=wav_io
         )
         st.write(transcription.text)
 
