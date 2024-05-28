@@ -90,7 +90,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
         st.sidebar.audio(audio_bytes, format='audio/mp3')
         transcript = client.audio.transcriptions.create(
             model='whisper-1',
-            file=file_name
+            file=open(file_name, 'rb')
         )
         st.write(transcript)
 
