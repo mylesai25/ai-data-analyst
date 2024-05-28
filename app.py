@@ -98,7 +98,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
       audio_bytes = audio_recorder()
       if audio_bytes:
         st.sidebar.audio(audio_bytes, format='audio/mp3')
-        transcript = transcribe_audio(audio_bytes, api_key)
+        transcript = transcribe_audio(audio_bytes, os.environ['OPENAI_API_KEY'])
         st.write(transcript)
 
     # response.stream_to_file(speech_file_path)
