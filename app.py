@@ -122,16 +122,16 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # Accept user input
     if st.session_state.prompt: 
         # Add user message to chat history
-        st.session_state.messages.append({"role": "user", "content": prompt})
+        st.session_state.messages.append({"role": "user", "content": st.session_state.prompt})
         # Display user message in chat message container
         with st.chat_message("user"):
-            st.markdown(prompt)
+            st.markdown(st.session_state.prompt)
         # Display assistant response in chat message container
         with st.spinner(text='Thinking'):
             thread_message = client.beta.threads.messages.create(
               st.session_state.thread.id,
               role="user",
-              content=prompt,
+              content=st.session_state.prompt,
               attachments=[
                 {
                     "file_id": file.id,
