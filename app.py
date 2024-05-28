@@ -112,23 +112,9 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
                 st.write(fig)
             else:
               st.markdown(message["content"])
-    default_chat_input_value = "Default Value"
-    js = f'''
-        <script>
-            function insertText(dummy_var_to_force_repeat_execution) {{
-                var chatInput = parent.document.querySelector('textarea[data-testid="stChatInput"]');
-                var nativeInputValueSetter = Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, "value").set;
-                nativeInputValueSetter.call(chatInput, "{default_chat_input_value}");
-                var event = new Event('input', {{ bubbles: true}});
-                chatInput.dispatchEvent(event);
-            }}
-            insertText({len(st.session_state.messages)});
-        </script>
-        '''
-    st.components.v1.html(js)
         
     # Accept user input
-    if prompt := st.chat_input("Ask questions about your data"):
+    if prompt := st.text_input("Ask questions about your data"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         # Display user message in chat message container
