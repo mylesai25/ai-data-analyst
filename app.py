@@ -62,6 +62,8 @@ st.title('AI Data Analyst')
 
 if "uploaded_files" not in st.session_state:
     st.session_state.uploaded_files = []
+if 'audio_text' not in st.session_state:
+    st.session_state.audio_text = None
 
 uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 
@@ -69,6 +71,7 @@ uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 if st.sidebar.button("Clear Chat"):
     st.session_state.messages = []
     st.session_state.thread = create_message_thread()
+    st.session_state.audio_text = None
     st.session_state.conversation = None
     st.session_state.chat_history = None
     st.session_state.trace_id = None
@@ -93,9 +96,9 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             file=open(file_name, 'rb')
         )
         st.write(transcript.text)
-        audio_text = transcript.text
+        st.session_state.audio_text = transcript.text
       else:
-        audio_text = ''
+        st.session_state.audio_text = None
 
     # response.stream_to_file(speech_file_path)
     
@@ -120,7 +123,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # Accept user input
     if (prompt := st.chat_input("Enter chat prompt here") or st.sidebar.button('Submit Audio')):
         # Add user message to chat history
-        if audio_text:
+        if st.session_state.audio_text:
             prompt = audio_text
         st.session_state.messages.append({"role": "user", "content": prompt})
         # Display user message in chat message container
@@ -164,7 +167,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             for plot in plots:
                 st.write(plot)
         st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
-        audio_text = ''
+        st.session_state.audio_text = None
     
     
 
