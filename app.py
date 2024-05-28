@@ -118,11 +118,10 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
               st.markdown(message["content"])
         
     # Accept user input
-    if (prompt := st.chat_input("Enter chat prompt here") or audio_text):
+    if (prompt := st.chat_input("Enter chat prompt here") or st.sidebar.button('Submit Audio'):
         # Add user message to chat history
         if audio_text:
-            if st.sidebar.button('Submit Audio'):
-                prompt = audio_text
+            prompt = audio_text
         st.session_state.messages.append({"role": "user", "content": prompt})
         # Display user message in chat message container
         with st.chat_message("user"):
