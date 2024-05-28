@@ -25,6 +25,14 @@ import requests
 
 
 # FUNCTIONS
+def save_audio_file(audio_bytes, file_extension):
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"audio_{timestamp}.{file_extension}"
+
+    with open(file_name, "wb") as f:
+        f.write(audio_bytes)
+
+    return file_name
 
 def extract_graphs(content):
   # takes graph from content object
@@ -77,10 +85,11 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     with st.sidebar.container():
       audio_bytes = audio_recorder()
       if audio_bytes:
+        file_name = save_audio_file(audio_bytes, 'wav')
         st.sidebar.audio(audio_bytes, format='audio/mp3')
         transcript = client.audio.transcriptions.create(
             model='whisper-1',
-            file=f"data:audio/wav;base64, {audio_bytes}"
+            file=file_name
         )
         st.write(transcript)
 
