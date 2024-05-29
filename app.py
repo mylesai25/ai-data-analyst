@@ -16,7 +16,7 @@ from openai import OpenAI
 from io import StringIO
 from io import BytesIO
 from PIL import Image
-from audio_recorder_streamlit import audio_recorder
+from streamlit-audiorec import st_audiorec
 from pathlib import Path
 from openai import OpenAI
 import speech_recognition as sr
@@ -127,7 +127,7 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
     client = OpenAI()
     with st.sidebar.container():
-      audio_bytes = audio_recorder(pause_threshold=2.0, sample_rate=41_000)
+      audio_bytes = st_audiorec()
       if audio_bytes:
         file_name = save_audio_file(audio_bytes, 'wav')
         transcript = client.audio.transcriptions.create(
