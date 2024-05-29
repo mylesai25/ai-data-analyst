@@ -10,5 +10,5 @@ langchain-experimental
 tabulate
 matplotlib
 Pillow
-audio-recorder-streamlit
+streamlit-audiorec
 SpeechRecognition
