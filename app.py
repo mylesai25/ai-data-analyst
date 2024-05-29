@@ -55,7 +55,7 @@ def response_audio(text):
     summary_response = client.chat.completions.create(
         model='gpt-4o',
         messages =[
-        {'role': 'system', 'content': 'You are a helpful assistant who specializes in summarizing text from an AI data analyst.'},
+        {'role': 'system', 'content': 'You are a helpful assistant who specializes in summarizing text from an AI data analyst. Summarize incoming text into a single paragraph.'},
         {'role': 'user', 'content': text}
         ]
     )
@@ -105,6 +105,8 @@ if 'audio_text' not in st.session_state:
     st.session_state.audio_text = None
 
 uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
+
+speech = st.sidebar.radio('Text-To-Speech?', ['On', 'Off'])
 
 
 if st.sidebar.button("Clear Chat"):
@@ -208,7 +210,8 @@ if os.environ['OPENAI_API_KEY'] and uploaded_file:
             st.markdown(text)
             for plot in plots:
                 st.write(plot)
-            response_audio(text)
+            if speech == 'On':
+                response_audio(text)
         st.session_state.messages.append({"role": "assistant", "content": {'text':text, 'plots': plots}})
         
     
