@@ -16,7 +16,7 @@ from openai import OpenAI
 from io import StringIO
 from io import BytesIO
 from PIL import Image
-from streamlit-audiorec import st_audiorec
+from st_audiorec import st_audiorec
 from pathlib import Path
 from openai import OpenAI
 import speech_recognition as sr
