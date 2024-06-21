@@ -108,7 +108,7 @@ uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 
 speech = st.sidebar.radio('Text-To-Speech?', ['On', 'Off'])
 
-scraper = st.sidebar.markdown('[Link to Social Media Scraper: Go](https://huggingface.co/spaces/mylesai/scraper)')
+scraper = st.sidebar.markdown('[Link to Social Media Scraper](https://huggingface.co/spaces/mylesai/scraper)')
 
 
 if st.sidebar.button("Clear Chat"):
