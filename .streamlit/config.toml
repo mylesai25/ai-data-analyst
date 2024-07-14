@@ -5,4 +5,5 @@ showErrorDetails = false
 primaryColor = "#0FFF50"
 textColor = 'white'
 backgroundColor = "black"
+secondaryBackgroundColor="gray"
 font = "serif"
