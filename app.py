@@ -97,17 +97,18 @@ def create_file(uploaded_file):
   return file
 
 # Title of app
-st.title('AI Data Analyst')
+st.title(':orange[AI] :green[Data Analyst]')
 
 if "uploaded_files" not in st.session_state:
     st.session_state.uploaded_files = []
 if 'audio_text' not in st.session_state:
     st.session_state.audio_text = None
 
-st.sidebar.markdown('Please enter your API key and upload your csv file below to start the AI Data Analyst!') 
+st.sidebar.markdown('# :green[Menu]')
+st.sidebar.markdown('Please enter your API key and upload your csv file below to start the :orange[AI] Data Analyst!') 
 uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 
-st.sidebar.markdown('Turn on Text-To-Speech for the AI Data Analyst to give summaries of its responses via speech!')
+st.sidebar.markdown('Turn on Text-To-Speech for the :orange[AI] Data Analyst to give summaries of its responses via speech!')
 speech = st.sidebar.radio('Text-To-Speech?', ['On', 'Off'])
 
 
@@ -127,6 +128,11 @@ if st.sidebar.button("Clear Chat"):
 # area to input your API Key
 os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='password')
 
+if not os.environ['OPENAI_API_KEY']:
+     st.markdown(':red-background[Please Enter OpenAI API Key]')
+    
+if not uploaded_file:
+    st.markdown(":red-background[Please Upload Files in the Sidebar]")
 
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
