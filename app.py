@@ -137,7 +137,7 @@ if not uploaded_file:
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
     client = OpenAI()
-    st.sidebar.markdown('You can also give voice commands to the data analyst by pressing the Start Recoding Button.')
+    st.sidebar.markdown('You can also give voice commands to the data analyst by pressing the Start Recoding button.')
     with st.sidebar.container():
       audio_bytes = st_audiorec()
       if audio_bytes:
