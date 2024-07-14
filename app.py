@@ -104,11 +104,11 @@ if "uploaded_files" not in st.session_state:
 if 'audio_text' not in st.session_state:
     st.session_state.audio_text = None
 
+st.sidebar.markdown('Please enter your API key and upload your csv file below to start the AI Data Analyst!') 
 uploaded_file = st.sidebar.file_uploader("Upload data", type=['csv'])
 
+st.sidebar.markdown('Turn on Text-To-Speech for the AI Data Analyst to give summaries of its responses via speech!')
 speech = st.sidebar.radio('Text-To-Speech?', ['On', 'Off'])
-
-scraper = st.sidebar.markdown('[Link to Social Media Scraper](https://huggingface.co/spaces/mylesai/scraper)')
 
 
 if st.sidebar.button("Clear Chat"):
@@ -127,9 +127,11 @@ if st.sidebar.button("Clear Chat"):
 # area to input your API Key
 os.environ['OPENAI_API_KEY'] = st.sidebar.text_input('OpenAI API Key', type='password')
 
+
 if os.environ['OPENAI_API_KEY'] and uploaded_file:
     # model used
     client = OpenAI()
+    st.sidebar.markdown('You can also give voice commands to the data analyst by pressing the Start Recoding Button.')
     with st.sidebar.container():
       audio_bytes = st_audiorec()
       if audio_bytes:
